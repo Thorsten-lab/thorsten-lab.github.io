@@ -645,11 +645,11 @@
 </div>
 
 <nav class="nav">
-  <button class="nav-btn active" onclick="showSection('chat', this)">💬 Chat</button>
-  <button class="nav-btn" onclick="showSection('timeline', this)">📅 Mein Weg</button>
-  <button class="nav-btn" onclick="showSection('about', this)">🙋 Über mich</button>
-  <button class="nav-btn" onclick="showSection('seeking', this)">🎯 Was ich suche</button>
-  <button class="nav-btn" onclick="showSection('contact', this)">📬 Kontakt</button>
+  <button class="nav-btn active" data-section="chat">💬 Chat</button>
+  <button class="nav-btn" data-section="timeline">📅 Mein Weg</button>
+  <button class="nav-btn" data-section="about">🙋 Über mich</button>
+  <button class="nav-btn" data-section="seeking">🎯 Was ich suche</button>
+  <button class="nav-btn" data-section="contact">📬 Kontakt</button>
 </nav>
 
 <!-- CHAT -->
@@ -1239,6 +1239,14 @@ async function handleSend() {
 
 document.addEventListener('DOMContentLoaded', () => {
   setAgeUI();
+
+  // Navigation via event listeners (more reliable than onclick in Safari)
+  document.querySelectorAll('.nav-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var name = this.getAttribute('data-section');
+      showSection(name, this);
+    });
+  });
   document.getElementById('userInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') handleSend();
   });
@@ -1248,4 +1256,11 @@ document.addEventListener('DOMContentLoaded', () => {
     showTyping();
     setTimeout(() => {
       removeTyping();
-      const greeting = 'Schön, dass du vorbeischaust!
+      const greeting = 'Schön, dass du vorbeischaust! Ich bin Thorsten – Journalist seit mehr als 25 Jahren, aktuell Leiter der Online-Redaktion bei Radio Bremen. Stell mir eine Frage – oder klick einfach auf eines der Themen unten.';
+      conversationHistory.push({ role: 'assistant', content: greeting });
+      addMessage(greeting, 'bot');
+      showQuickReplies();
+    }, 1300);
+  }, 600);
+});
+</script>
