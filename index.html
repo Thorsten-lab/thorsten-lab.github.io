@@ -55,7 +55,7 @@
     overflow-x: hidden;
   }
 
-  /* ── NAV ── */
+    /* ── NAV ── */
   .nav {
     position: sticky; top: 0; z-index: 100;
     background: rgba(28,28,28,0.97);
@@ -65,8 +65,6 @@
     border-bottom: 1px solid rgba(255,255,255,0.06);
     flex-wrap: wrap;
   }
-  /* Hide radio inputs */
-  .nav input[type="radio"] { display: none; }
   .nav-btn {
     background: transparent;
     border: 1px solid rgba(255,255,255,0.12);
@@ -75,53 +73,12 @@
     font-size: 0.8rem; font-weight: 500;
     padding: 7px 14px; border-radius: 100px;
     cursor: pointer; transition: all 0.2s;
+    text-decoration: none;
     display: inline-block;
   }
-  .nav-btn:hover { background: var(--rust); border-color: var(--rust); color: white; }
-
-  /* CSS-only tab switching */
-  #tab-chat:checked ~ * #section-chat,
-  #tab-timeline:checked ~ * #section-timeline,
-  #tab-about:checked ~ * #section-about,
-  #tab-seeking:checked ~ * #section-seeking,
-  #tab-contact:checked ~ * #section-contact { display: block !important; }
-
-  #tab-chat:checked ~ * #section-timeline,
-  #tab-chat:checked ~ * #section-about,
-  #tab-chat:checked ~ * #section-seeking,
-  #tab-chat:checked ~ * #section-contact,
-  #tab-timeline:checked ~ * #section-chat,
-  #tab-timeline:checked ~ * #section-about,
-  #tab-timeline:checked ~ * #section-seeking,
-  #tab-timeline:checked ~ * #section-contact,
-  #tab-about:checked ~ * #section-chat,
-  #tab-about:checked ~ * #section-timeline,
-  #tab-about:checked ~ * #section-seeking,
-  #tab-about:checked ~ * #section-contact,
-  #tab-seeking:checked ~ * #section-chat,
-  #tab-seeking:checked ~ * #section-timeline,
-  #tab-seeking:checked ~ * #section-about,
-  #tab-seeking:checked ~ * #section-contact,
-  #tab-contact:checked ~ * #section-chat,
-  #tab-contact:checked ~ * #section-timeline,
-  #tab-contact:checked ~ * #section-about,
-  #tab-contact:checked ~ * #section-seeking { display: none !important; }
-
-  /* Active nav label */
-  #tab-chat:checked ~ * label[for="tab-chat"],
-  #tab-timeline:checked ~ * label[for="tab-timeline"],
-  #tab-about:checked ~ * label[for="tab-about"],
-  #tab-seeking:checked ~ * label[for="tab-seeking"],
-  #tab-contact:checked ~ * label[for="tab-contact"] {
+  .nav-btn:hover, .nav-btn.active {
     background: var(--rust); border-color: var(--rust); color: white;
   }
-
-  /* Hide input bar except on chat */
-  #tab-chat:checked ~ * .input-bar { display: flex !important; }
-  #tab-timeline:checked ~ * .input-bar,
-  #tab-about:checked ~ * .input-bar,
-  #tab-seeking:checked ~ * .input-bar,
-  #tab-contact:checked ~ * .input-bar { display: none !important; }
 
   /* ── HERO ── */
   .hero {
@@ -689,18 +646,12 @@
   </div>
 </div>
 
-<input type="radio" name="tabs" id="tab-chat" checked>
-<input type="radio" name="tabs" id="tab-timeline">
-<input type="radio" name="tabs" id="tab-about">
-<input type="radio" name="tabs" id="tab-seeking">
-<input type="radio" name="tabs" id="tab-contact">
-
 <nav class="nav">
-  <label for="tab-chat" class="nav-btn">💬 Chat</label>
-  <label for="tab-timeline" class="nav-btn">📅 Mein Weg</label>
-  <label for="tab-about" class="nav-btn">🙋 Über mich</label>
-  <label for="tab-seeking" class="nav-btn">🎯 Was ich suche</label>
-  <label for="tab-contact" class="nav-btn">📬 Kontakt</label>
+  <button class="nav-btn active" id="btn-chat" onclick="goToSection('chat')">💬 Chat</button>
+  <button class="nav-btn" id="btn-timeline" onclick="goToSection('timeline')">📅 Mein Weg</button>
+  <button class="nav-btn" id="btn-about" onclick="goToSection('about')">🙋 Über mich</button>
+  <button class="nav-btn" id="btn-seeking" onclick="goToSection('seeking')">🎯 Was ich suche</button>
+  <button class="nav-btn" id="btn-contact" onclick="goToSection('contact')">📬 Kontakt</button>
 </nav>
 
 <!-- CHAT -->
@@ -717,7 +668,7 @@
 </section>
 
 <!-- TIMELINE -->
-<section id="section-timeline" class="section" style="display:none !important">
+<section id="section-timeline" class="section" style="display:none">
   <div class="timeline-wrap">
     <h2 class="section-title">Mein Weg.</h2>
     <p class="section-sub">Von Göttingen über Hannover und San Diego – bis ins Herz des öffentlich-rechtlichen Rundfunks.</p>
@@ -809,7 +760,7 @@
 </section>
 
 <!-- ÜBER MICH -->
-<section id="section-about" class="section" style="display:none !important">
+<section id="section-about" class="section" style="display:none">
   <div class="about-wrap">
     <h2 class="section-title">Über mich.</h2>
     <p class="section-sub">Was mich antreibt – beruflich und persönlich.</p>
@@ -900,7 +851,7 @@
 </section>
 
 <!-- WAS ICH SUCHE -->
-<section id="section-seeking" class="section" style="display:none !important">
+<section id="section-seeking" class="section" style="display:none">
   <div class="seeking-wrap">
     <h2 class="section-title">Was ich suche.</h2>
     <p class="section-sub">Meine nächste Herausforderung – klar und offen formuliert.</p>
@@ -975,7 +926,7 @@
 </section>
 
 <!-- KONTAKT -->
-<section id="section-contact" class="section" style="display:none !important">
+<section id="section-contact" class="section" style="display:none">
   <div class="contact-wrap">
     <h2 class="section-title">Kontakt.</h2>
     <p class="section-sub">Direkt, unkompliziert, menschlich – wie ich es mag.</p>
@@ -987,6 +938,7 @@
       <div class="contact-hero-text">
         <h3>Thorsten Reinhold</h3>
         <p>Journalist · Redaktionsleiter · Medien &amp; Tech</p>
+        <p style="margin-top:6px; font-size:0.82rem; color:var(--muted);">📍 Bremen</p>
       </div>
     </div>
 
@@ -1016,6 +968,28 @@
 </section>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ─── NAVIGATION (runs immediately, before DOM ready) ───
+window.goToSection = function goToSection(name) {
+  var ids = ['chat','timeline','about','seeking','contact'];
+  for (var i = 0; i < ids.length; i++) {
+    var sec = document.getElementById('section-' + ids[i]);
+    var btn = document.getElementById('btn-' + ids[i]);
+    if (sec) sec.style.display = (ids[i] === name) ? 'block' : 'none';
+    if (btn) {
+      if (ids[i] === name) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    }
+  }
+  var bar = document.querySelector('.input-bar');
+  if (bar) bar.style.display = name === 'chat' ? 'flex' : 'none';
+  window.scrollTo(0, 0);
+};
+
+
+
   // ─── AGE ───
   function calcAge() {
     const birth = new Date(1971, 0, 1); // 1. Januar 1971
@@ -1035,45 +1009,14 @@
   }
 
   // ─── NAVIGATION ───
-function showSection(name, btn) {
-  try {
-    // Hide all sections
-    var sections = document.querySelectorAll('.section');
-    for (var i = 0; i < sections.length; i++) {
-      sections[i].style.display = 'none';
-      sections[i].classList.remove('active');
-    }
-    // Show target section
-    var target = document.getElementById('section-' + name);
-    if (target) {
-      target.style.display = 'block';
-      target.classList.add('active');
-    }
-    // Update nav buttons
-    var btns = document.querySelectorAll('.nav-btn');
-    for (var j = 0; j < btns.length; j++) {
-      btns[j].classList.remove('active');
-    }
-    if (btn) btn.classList.add('active');
-    // Show/hide input bar
-    var bar = document.querySelector('.input-bar');
-    if (bar) bar.style.display = name === 'chat' ? 'flex' : 'none';
-    // Scroll to top
-    try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e) { window.scrollTo(0, 0); }
-  } catch(e) {
-    console.error('showSection error:', e);
-  }
-}
-
-// Make it globally available immediately
-window.showSection = showSection;
+// showSection replaced by goToSection above
 
 // ─── SYSTEM PROMPT ───
 const SYSTEM_PROMPT = `Du bist Thorsten – ein erfahrener Journalist und Leiter einer Online-Redaktion. Du sprichst in der Ich-Form und repräsentierst diese Person authentisch in Gesprächen mit Personalern.
 
 ÜBER THORSTEN:
 - Mehr als 25 Jahre Berufserfahrung als Journalist
-- Geboren Januar 1971, aktuell 55 Jahre alt – biologisch Boomer, mental Gen Z (das ist durchaus eine Stärke)
+- Geboren Januar 1971, aktuell 55 Jahre alt, wohnhaft in Bremen – biologisch Boomer, mental Gen Z (das ist durchaus eine Stärke)
 - Aktuell Leiter der Online-Redaktion bei Radio Bremen (seit 2003)
 - Geburtsstadt und Studienort: Göttingen
 - Studium: Georg-August-Universität Göttingen – Sportwissenschaften, Soziologie, Journalismus
@@ -1136,7 +1079,7 @@ const QUICK_TOPICS = [
   { label: "💼 Berufserfahrung", text: "Erzähl mir von deinem Werdegang" },
   { label: "🧭 Führungsstil", text: "Wie würdest du deinen Führungsstil beschreiben?" },
   { label: "🤖 KI & Medien", text: "Wie gehst du mit KI in der Redaktion um?" },
-  { label: "⚡ Dein Wendepunkt", text: "Was war der größte Wendepunkt in deiner Karriere?" },
+  { label: "⚡ Mein Wendepunkt", text: "Was war der größte Wendepunkt in deiner Karriere?" },
   { label: "🙋 Als Mensch", text: "Was macht dich als Mensch aus, abseits des Jobs?" },
   { label: "🎯 Was suchst du?", text: "Was ist dein nächster beruflicher Schritt?" },
 ];
@@ -1228,9 +1171,9 @@ const FALLBACK = {
     turning: 'Mein größter Wendepunkt: Ich wollte ein Sabbatical in den USA machen, mein Englisch verbessern. Mein Arbeitgeber wollte das nicht. Ich schon. Wir trennten uns. Ich ging nach San Diego – und von dort kam der Weg zu Radio Bremen. Eine Entscheidung, die ich nie bereut habe.',
     radiobremen: 'Seit 2003 bin ich bei Radio Bremen. Was als Hörfunk-Nachrichtenredakteur begann, führte mich in die Online-Redaktion – und schließlich in die Leitung. Heute verantworte ich eine Redaktion mit rund 30 Kolleg:innen, habe die buten un binnen App mitentwickelt und treibe KI im Redaktionsalltag aktiv voran.',
     age: 'Jahrgang 1971 – biologisch 55, im Kopf irgendwo zwischen TikTok und Tagesschau. Ob das gut ist? Ich glaube schon. Neugier hat kein Verfallsdatum.',
-    contact: 'Sehr gerne! Ihr erreicht mich per E-Mail unter thorsten.reinhold@posteo.de oder telefonisch unter 0163 416 6804. Ich freue mich auf das Gespräch!',
+    contact: 'Sehr gerne! Ich wohne aktuell in Bremen und bin per E-Mail unter thorsten.reinhold@posteo.de oder telefonisch unter 0163 416 6804 erreichbar. Ich freue mich auf das Gespräch!',
     ida: 'Ida? Ein wunderschöner Name – klassisch, zeitlos, mit Charakter. Aber du meinst sicherlich die Digitalagentur mit Sitz in Leipzig. Eine Innovations- und Digitalagentur, die smarte technische Lösungen für Medienhäuser entwickelt – und dabei den Menschen in den Mittelpunkt stellt. Genau das, was mich anspricht: Journalismus und Technologie zusammendenken, für Redaktionen, die ich verstehe, weil ich selbst eine leite. Ich glaube, da passt einiges zusammen.',
-    contact: 'Sehr gerne! Ihr erreicht mich per E-Mail unter thorsten.reinhold@posteo.de oder telefonisch unter 0163 416 6804. Ich freue mich auf das Gespräch!',
+    contact: 'Sehr gerne! Ich wohne aktuell in Bremen und bin per E-Mail unter thorsten.reinhold@posteo.de oder telefonisch unter 0163 416 6804 erreichbar. Ich freue mich auf das Gespräch!',
     ida: 'Ida? Ein schöner Name – und ja, ich kenne durchaus ein paar Idas. Aber du meinst sicherlich die Digitalagentur mit Sitz in Leipzig. Eine Innovations- und Digitalagentur, die smarte Lösungen für Medienhäuser entwickelt – genau an der Schnittstelle, an der ich seit Jahren arbeite. Ich finde: Was ida tut und was ich mitbringe, passt außergewöhnlich gut zusammen. Deshalb bin ich hier.',
     default: 'Das ist eine spannende Frage! Ich beantworte sie gerne persönlich. Schau dir in der Navigation auch "Mein Weg", "Über mich" und "Was ich suche" an – da steckt viel von mir drin.'
   }
@@ -1291,13 +1234,7 @@ async function handleSend() {
 document.addEventListener('DOMContentLoaded', () => {
   setAgeUI();
 
-  // Navigation via event listeners (more reliable than onclick in Safari)
-  document.querySelectorAll('.nav-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var name = this.getAttribute('data-section');
-      showSection(name, this);
-    });
-  });
+
   document.getElementById('userInput').addEventListener('keydown', e => {
     if (e.key === 'Enter') handleSend();
   });
