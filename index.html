@@ -65,6 +65,8 @@
     border-bottom: 1px solid rgba(255,255,255,0.06);
     flex-wrap: wrap;
   }
+  /* Hide radio inputs */
+  .nav input[type="radio"] { display: none; }
   .nav-btn {
     background: transparent;
     border: 1px solid rgba(255,255,255,0.12);
@@ -73,10 +75,53 @@
     font-size: 0.8rem; font-weight: 500;
     padding: 7px 14px; border-radius: 100px;
     cursor: pointer; transition: all 0.2s;
+    display: inline-block;
   }
-  .nav-btn:hover, .nav-btn.active {
+  .nav-btn:hover { background: var(--rust); border-color: var(--rust); color: white; }
+
+  /* CSS-only tab switching */
+  #tab-chat:checked ~ * #section-chat,
+  #tab-timeline:checked ~ * #section-timeline,
+  #tab-about:checked ~ * #section-about,
+  #tab-seeking:checked ~ * #section-seeking,
+  #tab-contact:checked ~ * #section-contact { display: block !important; }
+
+  #tab-chat:checked ~ * #section-timeline,
+  #tab-chat:checked ~ * #section-about,
+  #tab-chat:checked ~ * #section-seeking,
+  #tab-chat:checked ~ * #section-contact,
+  #tab-timeline:checked ~ * #section-chat,
+  #tab-timeline:checked ~ * #section-about,
+  #tab-timeline:checked ~ * #section-seeking,
+  #tab-timeline:checked ~ * #section-contact,
+  #tab-about:checked ~ * #section-chat,
+  #tab-about:checked ~ * #section-timeline,
+  #tab-about:checked ~ * #section-seeking,
+  #tab-about:checked ~ * #section-contact,
+  #tab-seeking:checked ~ * #section-chat,
+  #tab-seeking:checked ~ * #section-timeline,
+  #tab-seeking:checked ~ * #section-about,
+  #tab-seeking:checked ~ * #section-contact,
+  #tab-contact:checked ~ * #section-chat,
+  #tab-contact:checked ~ * #section-timeline,
+  #tab-contact:checked ~ * #section-about,
+  #tab-contact:checked ~ * #section-seeking { display: none !important; }
+
+  /* Active nav label */
+  #tab-chat:checked ~ * label[for="tab-chat"],
+  #tab-timeline:checked ~ * label[for="tab-timeline"],
+  #tab-about:checked ~ * label[for="tab-about"],
+  #tab-seeking:checked ~ * label[for="tab-seeking"],
+  #tab-contact:checked ~ * label[for="tab-contact"] {
     background: var(--rust); border-color: var(--rust); color: white;
   }
+
+  /* Hide input bar except on chat */
+  #tab-chat:checked ~ * .input-bar { display: flex !important; }
+  #tab-timeline:checked ~ * .input-bar,
+  #tab-about:checked ~ * .input-bar,
+  #tab-seeking:checked ~ * .input-bar,
+  #tab-contact:checked ~ * .input-bar { display: none !important; }
 
   /* ── HERO ── */
   .hero {
@@ -644,12 +689,18 @@
   </div>
 </div>
 
+<input type="radio" name="tabs" id="tab-chat" checked>
+<input type="radio" name="tabs" id="tab-timeline">
+<input type="radio" name="tabs" id="tab-about">
+<input type="radio" name="tabs" id="tab-seeking">
+<input type="radio" name="tabs" id="tab-contact">
+
 <nav class="nav">
-  <button class="nav-btn active" data-section="chat">💬 Chat</button>
-  <button class="nav-btn" data-section="timeline">📅 Mein Weg</button>
-  <button class="nav-btn" data-section="about">🙋 Über mich</button>
-  <button class="nav-btn" data-section="seeking">🎯 Was ich suche</button>
-  <button class="nav-btn" data-section="contact">📬 Kontakt</button>
+  <label for="tab-chat" class="nav-btn">💬 Chat</label>
+  <label for="tab-timeline" class="nav-btn">📅 Mein Weg</label>
+  <label for="tab-about" class="nav-btn">🙋 Über mich</label>
+  <label for="tab-seeking" class="nav-btn">🎯 Was ich suche</label>
+  <label for="tab-contact" class="nav-btn">📬 Kontakt</label>
 </nav>
 
 <!-- CHAT -->
@@ -666,7 +717,7 @@
 </section>
 
 <!-- TIMELINE -->
-<section id="section-timeline" class="section" style="display:none">
+<section id="section-timeline" class="section" style="display:none !important">
   <div class="timeline-wrap">
     <h2 class="section-title">Mein Weg.</h2>
     <p class="section-sub">Von Göttingen über Hannover und San Diego – bis ins Herz des öffentlich-rechtlichen Rundfunks.</p>
@@ -758,7 +809,7 @@
 </section>
 
 <!-- ÜBER MICH -->
-<section id="section-about" class="section" style="display:none">
+<section id="section-about" class="section" style="display:none !important">
   <div class="about-wrap">
     <h2 class="section-title">Über mich.</h2>
     <p class="section-sub">Was mich antreibt – beruflich und persönlich.</p>
@@ -849,7 +900,7 @@
 </section>
 
 <!-- WAS ICH SUCHE -->
-<section id="section-seeking" class="section" style="display:none">
+<section id="section-seeking" class="section" style="display:none !important">
   <div class="seeking-wrap">
     <h2 class="section-title">Was ich suche.</h2>
     <p class="section-sub">Meine nächste Herausforderung – klar und offen formuliert.</p>
@@ -924,7 +975,7 @@
 </section>
 
 <!-- KONTAKT -->
-<section id="section-contact" class="section" style="display:none">
+<section id="section-contact" class="section" style="display:none !important">
   <div class="contact-wrap">
     <h2 class="section-title">Kontakt.</h2>
     <p class="section-sub">Direkt, unkompliziert, menschlich – wie ich es mag.</p>
