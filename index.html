@@ -1215,14 +1215,7 @@ STIL: Antworte als Thorsten in Ich-Form. Warm, direkt, ehrlich, gelegentlich hum
 // ─── CHAT ───
 const conversationHistory = [];
 
-const QUICK_TOPICS = [
-  { label: "💼 Berufserfahrung", text: "Erzähl mir von deinem Werdegang" },
-  { label: "🧭 Führungsstil", text: "Wie würdest du deinen Führungsstil beschreiben?" },
-  { label: "🤖 KI & Medien", text: "Wie gehst du mit KI in der Redaktion um?" },
-  { label: "⚡ Mein Wendepunkt", text: "Was war der größte Wendepunkt in deiner Karriere?" },
-  { label: "🙋 Als Mensch", text: "Was macht dich als Mensch aus, abseits des Jobs?" },
-  { label: "🎯 Was ich suche", text: "Was ist dein nächster beruflicher Schritt?" },
-];
+// QUICK_TOPICS removed - using question bar instead
 
 function addMessage(html, sender) {
   const msgs = document.getElementById('messages');
@@ -1350,7 +1343,6 @@ async function sendMessage(text, displayText) {
   removeTyping();
   addMessage(reply, 'bot');
   btn.disabled = false;
-  showQuickReplies();
 }
 
 async function handleSend() {
@@ -1377,7 +1369,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const greeting = 'Schön, dass du vorbeischaust! Ich bin Thorsten – Journalist seit mehr als 25 Jahren, aktuell Leiter der Online-Redaktion bei Radio Bremen. Stell mir eine Frage – oder klick einfach auf eines der Themen unten.';
       conversationHistory.push({ role: 'assistant', content: greeting });
       addMessage(greeting, 'bot');
-      showQuickReplies();
     }, 1300);
   }, 600);
 });
