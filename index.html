@@ -571,6 +571,80 @@
   .contact-card h4 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 10px; }
   .contact-card p { font-size: 0.9rem; color: #4a4540; line-height: 1.65; }
 
+  /* ── GUIDED CHAT GRID ── */
+  .question-grid {
+    padding: 24px 0 8px;
+  }
+  .question-grid-intro {
+    font-size: 0.88rem; color: var(--muted);
+    margin-bottom: 16px; text-align: center;
+    font-style: italic;
+  }
+  .question-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .question-card {
+    background: var(--white);
+    border: 1.5px solid var(--sand);
+    border-radius: 14px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+  .question-card:hover {
+    border-color: var(--rust);
+    box-shadow: 0 4px 16px rgba(255,107,107,0.15);
+    transform: translateY(-2px);
+  }
+  .question-card .qc-emoji {
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .question-card.full-width {
+    grid-column: 1 / -1;
+  }
+  @media (max-width: 600px) {
+    .question-cards { grid-template-columns: 1fr; }
+    .question-card.full-width { grid-column: 1; }
+  }
+
+  /* ── QUESTION BAR ── */
+  .question-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px 0 6px;
+    border-top: 1px solid var(--sand);
+    margin-bottom: 4px;
+  }
+  .qbar-btn {
+    background: var(--white);
+    border: 1.5px solid var(--sand);
+    border-radius: 100px;
+    padding: 6px 12px;
+    font-size: 0.78rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .qbar-btn:hover {
+    background: var(--rust);
+    border-color: var(--rust);
+    color: white;
+  }
+
   /* ── MOBILE OPTIMIZATIONS ── */
   @media (max-width: 600px) {
     .hero { padding: 36px 20px 36px; }
@@ -657,7 +731,50 @@
 <!-- CHAT -->
 <section id="section-chat" class="section active" style="display:block">
   <div class="chat-wrap">
-    <div class="chat-messages" id="messages"></div>
+    <div class="question-grid" id="question-grid">
+      <p class="question-grid-intro">Womit möchtest du starten?</p>
+      <div class="question-cards" id="question-cards-main">
+        <button class="question-card" onclick="askQuestion('Warum denke ich über einen Jobwechsel nach?')">
+          <span class="qc-emoji">🤔</span>
+          Warum denke ich über einen Jobwechsel nach?
+        </button>
+        <button class="question-card" onclick="askQuestion('Was mache ich heute bei Radio Bremen?')">
+          <span class="qc-emoji">🎙️</span>
+          Was mache ich heute bei Radio Bremen?
+        </button>
+        <button class="question-card" onclick="askQuestion('Wie führe ich mein Team?')">
+          <span class="qc-emoji">🧭</span>
+          Wie führe ich mein Team?
+        </button>
+        <button class="question-card" onclick="askQuestion('Was war mein größter Karriere-Wendepunkt?')">
+          <span class="qc-emoji">⚡</span>
+          Was war mein größter Karriere-Wendepunkt?
+        </button>
+        <button class="question-card" onclick="askQuestion('Wie gehe ich mit KI in der Redaktion um?')">
+          <span class="qc-emoji">🤖</span>
+          Wie gehe ich mit KI in der Redaktion um?
+        </button>
+        <button class="question-card" onclick="askQuestion('Was macht mich abseits des Jobs aus?')">
+          <span class="qc-emoji">🙋</span>
+          Was macht mich abseits des Jobs aus?
+        </button>
+        <button class="question-card full-width" onclick="askQuestion('Wer hat diese App gebaut?')">
+          <span class="qc-emoji">🛠️</span>
+          Wer hat diese App gebaut – und was sagt das über mich?
+        </button>
+      </div>
+    </div>
+    <div class="chat-messages" id="messages" style="display:none"></div>
+    <!-- Compact question bar shown after first question -->
+    <div class="question-bar" id="question-bar" style="display:none">
+      <button class="qbar-btn" onclick="askQuestion('Warum denke ich über einen Jobwechsel nach?')">🤔 Jobwechsel</button>
+      <button class="qbar-btn" onclick="askQuestion('Was mache ich heute bei Radio Bremen?')">🎙️ Radio Bremen</button>
+      <button class="qbar-btn" onclick="askQuestion('Wie führe ich mein Team?')">🧭 Führung</button>
+      <button class="qbar-btn" onclick="askQuestion('Was war mein größter Karriere-Wendepunkt?')">⚡ Wendepunkt</button>
+      <button class="qbar-btn" onclick="askQuestion('Wie gehe ich mit KI in der Redaktion um?')">🤖 KI</button>
+      <button class="qbar-btn" onclick="askQuestion('Was macht mich abseits des Jobs aus?')">🙋 Mensch</button>
+      <button class="qbar-btn" onclick="askQuestion('Wer hat diese App gebaut?')">🛠️ App</button>
+    </div>
   </div>
   <div class="input-bar">
     <div class="input-inner">
@@ -968,6 +1085,20 @@
 </section>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ─── GUIDED CHAT ───
+function askQuestion(text) {
+  var grid = document.getElementById('question-grid');
+  var msgs = document.getElementById('messages');
+  var bar = document.getElementById('question-bar');
+  // First click: hide grid, show chat + compact bar
+  if (grid && grid.style.display !== 'none') {
+    grid.style.display = 'none';
+    if (msgs) msgs.style.display = 'flex';
+    if (bar) bar.style.display = 'flex';
+  }
+  sendMessage(text, text);
+}
+
 // ─── NAVIGATION (runs immediately, before DOM ready) ───
 window.goToSection = function goToSection(name) {
   var ids = ['chat','timeline','about','seeking','contact'];
@@ -975,6 +1106,15 @@ window.goToSection = function goToSection(name) {
     var sec = document.getElementById('section-' + ids[i]);
     var btn = document.getElementById('btn-' + ids[i]);
     if (sec) sec.style.display = (ids[i] === name) ? 'block' : 'none';
+    // If going back to chat and no messages yet, show grid
+    if (ids[i] === 'chat' && name === 'chat') {
+      var msgs = document.getElementById('messages');
+      var grid = document.getElementById('question-grid');
+      if (msgs && msgs.children.length === 0) {
+        if (grid) grid.style.display = 'block';
+        if (msgs) msgs.style.display = 'none';
+      }
+    }
     if (btn) {
       if (ids[i] === name) {
         btn.classList.add('active');
@@ -1169,6 +1309,8 @@ const FALLBACK = {
     personal: 'Abseits des Jobs: Sport ist nach wie vor Leidenschaft – Fußball geht nicht mehr, dafür Fitnessstudio. Kochen ist meine Mission: Menschen damit glücklich machen. Meine Frau kommt aus Sardinien, Italien liegt mir sehr am Herzen. Und ich bin stolzer Vater einer Tochter, die mich mit Videoclip-Dancing und Latein gleichermaßen begeistert.',
     seeking: 'Ich suche eine Rolle an der Schnittstelle von Medien und Technologie – wo Journalismus, digitale Transformation und Führungserfahrung zusammenkommen. Remote-Arbeit ist für mich ein echter Motivationsfaktor, auch zeitweise aus Italien. Remote ist für mich kein Rückzug. Ich bin auch in 3D stark. Und: Scrum, Kanban, schnelle Iterationen – das liegt mir. Bei Radio Bremen erlebe ich zu oft, wie lange Abstimmungsprozesse Energie kosten, die besser ins direkte Ausprobieren fließen würde. Vibe Coding? Noch kein Experte – aber gebt mir Zeit. Ich werde es.',
     turning: 'Mein größter Wendepunkt: Ich wollte ein Sabbatical in den USA machen, mein Englisch verbessern. Mein Arbeitgeber wollte das nicht. Ich schon. Wir trennten uns. Ich ging nach San Diego – und von dort kam der Weg zu Radio Bremen. Eine Entscheidung, die ich nie bereut habe.',
+    app: 'Diese App? Die habe ich mit Claude – der KI von Anthropic – gebaut. Kein klassisches Coding, sondern ein iterativer Prozess: Idee beschreiben, Ergebnis prüfen, verfeinern, weiterdenken. Das ist für mich genau das, was modernes Arbeiten bedeutet: Neugier, Werkzeuge ausprobieren, Dinge einfach machen. Vibe Coding in Aktion – sozusagen.',
+    jobchange: 'Radio Bremen ist ein attraktiver Arbeitgeber – das sage ich nicht pro forma. Ich fühle mich dort fachlich und menschlich wohl, das Team ist gut, die Themen sind relevant. Und trotzdem: Ida reizt mich. Die Themen, die Arbeitsweise, die Flexibilität – das ist eine Kombination, die ich bei Radio Bremen so nicht habe. Es geht mir nicht darum, etwas zu verlassen. Sondern darum, etwas zu finden, das noch besser zu mir passt. Job und Leben im Einklang. Das ist kein Widerspruch – das ist Ehrlichkeit.',
     radiobremen: 'Seit 2003 bin ich bei Radio Bremen. Was als Hörfunk-Nachrichtenredakteur begann, führte mich in die Online-Redaktion – und schließlich in die Leitung. Heute verantworte ich eine Redaktion mit rund 30 Kolleg:innen, habe die buten un binnen App mitentwickelt und treibe KI im Redaktionsalltag aktiv voran.',
     age: 'Jahrgang 1971 – biologisch 55, im Kopf irgendwo zwischen TikTok und Tagesschau. Ob das gut ist? Ich glaube schon. Neugier hat kein Verfallsdatum.',
     contact: 'Sehr gerne! Ich wohne aktuell in Bremen und bin per E-Mail unter thorsten.reinhold [at] posteo.de oder telefonisch unter 0163 416 6804 erreichbar. Ich freue mich auf das Gespräch!',
