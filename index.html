@@ -1263,21 +1263,9 @@ function removeTyping() {
 }
 
 function showQuickReplies() {
-  const msgs = document.getElementById('messages');
-  const old = document.getElementById('qr-bar');
+  // Question bar handles navigation - no duplicate buttons needed
+  var old = document.getElementById('qr-bar');
   if (old) old.remove();
-  const bar = document.createElement('div');
-  bar.className = 'quick-replies';
-  bar.id = 'qr-bar';
-  QUICK_TOPICS.forEach(t => {
-    const btn = document.createElement('button');
-    btn.className = 'qr-btn';
-    btn.textContent = t.label;
-    btn.onclick = () => { bar.remove(); sendMessage(t.text, t.label); };
-    bar.appendChild(btn);
-  });
-  msgs.appendChild(bar);
-  msgs.scrollTop = msgs.scrollHeight;
 }
 
 // ─── FALLBACK RESPONSES ───
