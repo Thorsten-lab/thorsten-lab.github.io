@@ -1265,19 +1265,23 @@ function showQuickReplies() {
 const FALLBACK = {
   classify(t) {
     t = t.toLowerCase();
-    // Specific checks first – before broad ones like 'karriere'
-    if (/wendepunkt|san diego|sabbatical/.test(t)) return 'turning';
-    if (/mensch|hobby|persönlich|freizeit|koch|essen|sardinien|italien|tochter|familie|abseits/.test(t)) return 'personal';
+    if (/app gebaut|diese app|chatbot gebaut|wer hat.*app|vibe coding/.test(t)) return 'app';
+    if (/jobwechsel|warum.*job|denke.*job|über.*jobwechsel/.test(t)) return 'jobchange';
+    if (/wie führe ich|führe.*mein team|mein team/.test(t)) return 'leadership';
+    if (/was mache ich heute|bei radio bremen/.test(t)) return 'radiobremen';
+    if (/wie gehe ich mit ki|ki in der redaktion/.test(t)) return 'tech';
+    if (/was macht mich|abseits des jobs/.test(t)) return 'personal';
+    if (/wendepunkt|karriere-wendepunkt|san diego|sabbatical/.test(t)) return 'turning';
+    if (/mensch|hobby|persönlich|freizeit|koch|essen|sardinien|italien|tochter|familie/.test(t)) return 'personal';
     if (/nächste|remote|stelle|suche|position|wunsch|ziel|berufliche/.test(t)) return 'seeking';
     if (/führung|leadership|servant|talent|star|freunde|mannschaft/.test(t)) return 'leadership';
     if (/feedback|kritik/.test(t)) return 'feedback';
-    if (/ki|ai|digital|trend|app|innovation/.test(t)) return 'tech';
+    if (/ki|ai|digital|trend|innovation/.test(t)) return 'tech';
     if (/erfahrung|karriere|werdegang|beruf|laufbahn|jahre/.test(t)) return 'experience';
     if (/\bida\b|digitalagentur|leipzig|agentur/.test(t)) return 'ida';
     if (/radio bremen|redaktion|buten|sender/.test(t)) return 'radiobremen';
-    if (/alter|jung|generation|gen.?z|1971|boomer|geboren|wie alt|jahrgang/.test(t)) return 'age';
-    if (/kontakt|erreichen|email|mail|telefon|nummer|anruf|schreiben/.test(t)) return 'contact';
-    if (/\bida\b|digitalagentur|agentur|leipzig/.test(t)) return 'ida';
+    if (/alter|jung|1971|boomer|geboren|wie alt|jahrgang/.test(t)) return 'age';
+    if (/kontakt|erreichen|email|telefon|nummer/.test(t)) return 'contact';
     if (/hallo|hi|ciao|hey|moin/.test(t)) return 'greet';
     return 'default';
   },
