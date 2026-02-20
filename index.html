@@ -1323,7 +1323,7 @@ async function sendMessage(text, displayText) {
   conversationHistory.push({ role: 'user', content: text });
 
   const btn = document.getElementById('sendBtn');
-  btn.disabled = true;
+  if (btn) btn.disabled = true;
   showTyping();
 
   let reply = null;
@@ -1341,7 +1341,10 @@ async function sendMessage(text, displayText) {
     });
     if (response.ok) {
       const data = await response.json();
-      reply = data.content?.map(b => b.text || '').join('') || null;
+      // Check for API error (e.g. missing key returns error object)
+      if (data.content && data.content.length > 0) {
+        reply = data.content.map(b => b.text || '').join('') || null;
+      }
     }
   } catch(e) {
     reply = null;
@@ -1356,7 +1359,7 @@ async function sendMessage(text, displayText) {
   conversationHistory.push({ role: 'assistant', content: reply });
   removeTyping();
   addMessage(reply, 'bot');
-  btn.disabled = false;
+  if (btn) btn.disabled = false;
 }
 
 async function handleSend() {
