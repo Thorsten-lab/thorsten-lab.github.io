@@ -1322,6 +1322,14 @@ async function sendMessage(text, displayText) {
     var oldBar = document.getElementById('qr-bar');
     if (oldBar) oldBar.remove();
 
+    // Make sure messages div is visible, grid hidden
+    var msgs = document.getElementById('messages');
+    var grid = document.getElementById('question-grid');
+    var qbar = document.getElementById('question-bar');
+    if (msgs) msgs.style.display = 'flex';
+    if (grid) grid.style.display = 'none';
+    if (qbar) qbar.style.display = 'flex';
+
     // Show user message
     addMessage(displayText || text, 'user');
     conversationHistory.push({ role: 'user', content: text });
