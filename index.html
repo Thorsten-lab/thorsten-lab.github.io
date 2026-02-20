@@ -1300,7 +1300,19 @@ const FALLBACK = {
     ida: 'Ida? Ein wunderschöner Name – klassisch, zeitlos, mit Charakter. Aber du meinst sicherlich die Digitalagentur mit Sitz in Leipzig. Eine Innovations- und Digitalagentur, die smarte technische Lösungen für Medienhäuser entwickelt – und dabei den Menschen in den Mittelpunkt stellt. Genau das, was mich anspricht: Journalismus und Technologie zusammendenken, für Redaktionen, die ich verstehe, weil ich selbst eine leite. Ich glaube, da passt einiges zusammen.',
     contact: 'Sehr gerne! Ich wohne aktuell in Bremen und bin per E-Mail unter thorsten.reinhold [at] posteo.de oder telefonisch unter 0163 416 6804 erreichbar. Ich freue mich auf das Gespräch!',
     ida: 'Ida? Ein schöner Name – und ja, ich kenne durchaus ein paar Idas. Aber du meinst sicherlich die Digitalagentur mit Sitz in Leipzig. Eine Innovations- und Digitalagentur, die smarte Lösungen für Medienhäuser entwickelt – genau an der Schnittstelle, an der ich seit Jahren arbeite. Ich finde: Was ida tut und was ich mitbringe, passt außergewöhnlich gut zusammen. Deshalb bin ich hier.',
-    default: 'Das ist eine spannende Frage! Ich beantworte sie gerne persönlich. Schau dir in der Navigation auch "Mein Weg", "Über mich" und "Was ich suche" an – da steckt viel von mir drin.'
+    default: function() {
+      var r = [
+        'Verdammt. Vergessen! Frag mich das nochmal persönlich – da bin ich besser.',
+        'Ist mir beim Prompten durchgerutscht. Schau dir die anderen Tabs an – da steckt viel von mir drin.',
+        'Gute Frage. Leider gerade kein Netz zu meinem Gehirn. Versuch es mit einem der Themen oben!',
+        'Good question! Auf alles habe ich noch keine Antwort programmiert. Das klären wir beim echten Gespräch – da bin ich deutlich eloquenter.',
+        'Diese Frage hat mein Chatbot-Ich überfordert. Mein echtes Ich ist robuster. Einfach anrufen.',
+        'Hmm. Das weiß ich tatsächlich nicht auswendig – aber ruf mich an, dann klären wir das.',
+        'Das liegt außerhalb meines Ressorts. Aber klick ruhig weiter – irgendwo steckt die Antwort in der App.',
+        'Ich bin ein Chatbot, kein Orakel. Für alles andere gibt es das echte Gespräch.',
+      ];
+      return r[Math.floor(Math.random() * r.length)];
+    }
   }
 };
 
@@ -1338,7 +1350,7 @@ async function sendMessage(text, displayText) {
   // Fallback if API unavailable
   if (!reply) {
     const key = FALLBACK.classify(text);
-    reply = FALLBACK.answers[key];
+    var _a = FALLBACK.answers[key]; reply = typeof _a === 'function' ? _a() : _a;
   }
 
   conversationHistory.push({ role: 'assistant', content: reply });
