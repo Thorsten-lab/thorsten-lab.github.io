@@ -1343,7 +1343,7 @@ async function sendMessage(text, displayText) {
 
     // Try Gemini API
     try {
-      var GEMINI_KEY = 'PASTE_KEY_HERE';
+      var GEMINI_KEY = 'gen-lang-client-0437831353';
       var geminiMessages = conversationHistory.map(function(m) {
         return { role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] };
       });
